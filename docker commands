@@ -1,0 +1,7 @@
+
+
+docker run -p 8080:80 nginx -v /Users/jsbailey/teaching-2324/70085/ex9/nginx-html:/usr/share/nginx/html
+
+
+https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
+
