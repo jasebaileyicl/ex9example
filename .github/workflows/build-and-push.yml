@@ -6,21 +6,13 @@ on:
       - main  # Change this to the branch you want to trigger the workflow on
 
 jobs:
-  build-and-push:
+  build-and-publish-latest:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+        - uses: actions/checkout@v2 # Checking out the repo
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Login to GitHub Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-    - name: Build and Push Docker Image
-      run: |
-        docker buildx create --use
-        docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:latest .
-        docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}:latest
+        - name: Build and Publish latest Docker image
+          uses: VaultVulp/gp-docker-action@1.1.12
+          with:
+              github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+              image-name: jason-nginx # Provide only Docker image name, tag will be automatically set to latest
